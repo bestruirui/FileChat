@@ -1,0 +1,50 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "fllo",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-01-12",
+	"observability": {
+		"logs": {
+			"enabled": true,
+			"invocation_logs": true
+		}
+	},
+	"assets": {
+		"directory": "out",
+		"binding": "ASSETS"
+	},
+	"vars": {
+		"MAX_FILE_SIZE_BYTES": 1073741824,
+		"ADMIN": "admin"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "fllo",
+			"database_id": "5f0e9d3d-e22b-48fd-b7cd-8ec302699045",
+			"remote": false
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "R2",
+			"bucket_name": "fllo"
+		}
+	],
+	"durable_objects": {
+		"bindings": [
+			{
+				"class_name": "fllo",
+				"name": "fllo"
+			}
+		]
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": [
+				"fllo"
+			]
+		}
+	]
+}

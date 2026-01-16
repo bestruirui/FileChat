@@ -1,0 +1,21 @@
+{
+  "name": "filechat",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --ip 0.0.0.0",
+    "admin": "node scripts/admin.js",
+    "config": "node scripts/config.js",
+    "deploy": "wrangler deploy --minify",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "db:migrations:apply": "yes | wrangler d1 migrations apply DB --remote"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.1",
+    "hono": "^4.11.3",
+    "mime": "^4.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "wrangler": "^4.4.0"
+  }
+}

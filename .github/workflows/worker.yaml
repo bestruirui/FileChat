@@ -1,0 +1,32 @@
+name: Deploy to Cloudflare Workers
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  Deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      D1_DATABASE_ID: ${{ secrets.D1_DATABASE_ID }}
+      ADMIN: ${{ secrets.ADMIN }}
+      MAX_FILE_SIZE_BYTES: ${{ vars.MAX_FILE_SIZE_BYTES }}
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 10
+          cache: true
+      - name: Build front
+        run: cd front && pnpm i && pnpm run build
+      - name: Deploy
+        run: cd worker && rm -rf out && mv ../front/out . && pnpm i && pnpm run config && pnpm run deploy && pnpm run db:migrations:apply && pnpm run admin
